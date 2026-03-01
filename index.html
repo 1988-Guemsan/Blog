@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>블로그</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#f5f6f7;}
+.topbar{background:#03c75a;height:60px;display:flex;align-items:center;padding:0 20px;color:white;}
+.logo{font-size:22px;font-weight:bold;margin-right:20px;}
+.search{flex:1;}
+.search input{width:100%;height:34px;border:none;border-radius:3px;padding-left:10px;}
+.container{width:1100px;margin:20px auto;display:flex;gap:20px;}
+.sidebar{width:260px;}
+
+.profile{background:white;padding:20px;border-radius:6px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+.profile img{width:80px;height:80px;border-radius:50%;}
+.nickname{margin-top:10px;font-weight:bold;}
+
+.menu{margin-top:20px;background:white;border-radius:6px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+.menu div{padding:8px 0;border-bottom:1px solid #eee;cursor:pointer;}
+.menu div:last-child{border:none;}
+.menu div:hover{color:#03c75a;font-weight:bold;}
+
+.main{flex:1;}
+.page{display:none;}
+.active{display:block;}
+
+.post{background:white;padding:20px;border-radius:6px;margin-bottom:15px;box-shadow:0 1px 3px rgba(0,0,0,0.1);cursor:pointer;}
+.title{font-size:20px;font-weight:bold;}
+.meta{font-size:13px;color:gray;margin-top:5px;}
+.content{margin-top:15px;line-height:1.6;}
+.back{margin-bottom:15px;cursor:pointer;color:#03c75a;font-weight:bold;}
+.noticeTag{color:red;font-weight:bold;margin-right:6px;}
+
+.likeBox{
+margin-top:20px;
+padding:10px;
+border-top:1px solid #eee;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.likeBtn{
+background:#ff4d6d;
+color:white;
+border:none;
+padding:6px 12px;
+border-radius:4px;
+cursor:pointer;
+}
+
+.commentBox{
+margin-top:25px;
+border-top:1px solid #eee;
+padding-top:15px;
+}
+
+.commentInput{
+width:100%;
+height:70px;
+margin-top:10px;
+border:1px solid #ddd;
+border-radius:5px;
+padding:10px;
+resize:none;
+}
+
+.commentSubmit{
+margin-top:8px;
+background:#03c75a;
+color:white;
+border:none;
+padding:6px 14px;
+border-radius:4px;
+cursor:pointer;
+}
+
+.noComment{
+color:gray;
+font-size:14px;
+margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<div class="logo">블로그</div>
+<div class="search"><input type="text" placeholder="검색"></div>
+</div>
+
+<div class="container">
+
+<!-- 사이드 -->
+<div class="sidebar">
+<div class="profile">
+<img src="https://via.placeholder.com/80">
+<div class="nickname">블로거 이름</div>
+</div>
+
+<div class="menu">
+<div onclick="showPage('home')">전체 글</div>
+<div onclick="showPage('notice')">공지사항</div>
+<div onclick="showPage('dimension')">새차원회</div>
+<div onclick="showPage('guest')">방명록</div>
+</div>
+</div>
+
+<!-- 메인 -->
+<div class="main">
+
+<!-- 전체글 -->
+<div id="home" class="page active">
+<div class="post" onclick="openPost('d1')"><div class="title">임시 게시물 1</div></div>
+<div class="post" onclick="openPost('d2')"><div class="title">임시 게시물 2</div></div>
+<div class="post" onclick="openPost('d3')"><div class="title">임시 게시물 3</div></div>
+<div class="post" onclick="openPost('d4')"><div class="title">임시 게시물 4</div></div>
+<div class="post" onclick="openPost('notice1')">
+<div class="title"><span class="noticeTag">공지</span>임시 공지글</div>
+</div>
+</div>
+
+<!-- 공지 -->
+<div id="notice" class="page">
+<div class="back" onclick="showPage('home')">← 돌아가기</div>
+<div class="post" onclick="openPost('notice1')"><div class="title">임시 공지글</div></div>
+</div>
+
+<!-- 새차원회 -->
+<div id="dimension" class="page">
+<div class="back" onclick="showPage('home')">← 돌아가기</div>
+<div class="post" onclick="openPost('d1')"><div class="title">임시 게시물 1</div></div>
+<div class="post" onclick="openPost('d2')"><div class="title">임시 게시물 2</div></div>
+<div class="post" onclick="openPost('d3')"><div class="title">임시 게시물 3</div></div>
+<div class="post" onclick="openPost('d4')"><div class="title">임시 게시물 4</div></div>
+</div>
+
+<!-- 상세 -->
+<div id="postView" class="page">
+<div class="back" onclick="goBack()">← 목록으로</div>
+
+<div class="post" style="cursor:default">
+
+<div class="title" id="postTitle"></div>
+<div class="meta">작성일 | 조회수</div>
+<div class="content" id="postContent"></div>
+
+<div class="likeBox">
+<button class="likeBtn" onclick="likePost()">❤ 좋아요</button>
+<span id="likeCount">0</span>
+</div>
+
+<div class="commentBox">
+<b>댓글</b>
+<div class="noComment">댓글이 없습니다.</div>
+
+<textarea id="commentInput" class="commentInput" placeholder="댓글을 입력하세요"></textarea>
+<br>
+<button class="commentSubmit" onclick="submitComment()">등록</button>
+</div>
+
+</div>
+</div>
+
+<!-- 방명록 -->
+<div id="guest" class="page">
+<div class="back" onclick="showPage('home')">← 돌아가기</div>
+<div class="post" style="cursor:default">
+<div class="title">방명록</div>
+<div class="content">방문 흔적을 남겨주세요.</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+let lastPage="home";
+let likes=0;
+let liked=false;
+
+function showPage(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+lastPage=id;
+
+/* 페이지 이동 시 댓글 입력창 초기화 */
+let input=document.getElementById("commentInput");
+if(input){input.value="";}
+}
+
+const posts={
+d1:{title:"임시 게시물 1",content:"새차원회 첫 번째 글 내용입니다."},
+d2:{title:"임시 게시물 2",content:"두 번째 게시글 테스트 내용."},
+d3:{title:"임시 게시물 3",content:"세 번째 글입니다."},
+d4:{title:"임시 게시물 4",content:"네 번째 게시글 내용입니다."},
+notice1:{title:"임시 공지글",content:"공지사항 테스트 글입니다."}
+};
+
+function openPost(id){
+document.getElementById("postTitle").innerText=posts[id].title;
+document.getElementById("postContent").innerText=posts[id].content;
+likes=0;
+liked=false;
+document.getElementById("likeCount").innerText=likes;
+showPage("postView");
+}
+
+function goBack(){
+showPage(lastPage);
+}
+
+function likePost(){
+if(!liked){
+likes++;
+liked=true;
+}else{
+likes--;
+liked=false;
+}
+document.getElementById("likeCount").innerText=likes;
+}
+
+function submitComment(){
+alert("로그인하신 뒤 이용해주세요.");
+}
+</script>
+
+</body>
+</html>
