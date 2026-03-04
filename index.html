@@ -103,13 +103,13 @@ line-height:1.4;
   padding:15px 30px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
 }
 
 .search-area{
   display:flex;
   align-items:center;
   gap:10px;
+  margin-left:40px;
 }
 
 .search-area input{
@@ -330,8 +330,11 @@ function login(){
     isLoggedIn = true;
     error.innerText = "";
 
-    document.getElementById("loginBtn").innerText = "LHB님";
-    document.getElementById("loginBtn").onclick = null;
+    const btn = document.getElementById("loginBtn");
+    if(btn){
+      btn.innerText = "LHB님";
+      btn.onclick = null;
+    }
 
     closeLoginModal();
 
