@@ -193,7 +193,16 @@ let liked=false;
 function showPage(id){
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 document.getElementById(id).classList.add("active");
-lastPage=id;
+
+/* postView는 lastPage로 저장하지 않음 */
+if(id !== "postView"){
+    lastPage = id;
+}
+
+/* 댓글 입력창 초기화 */
+let input=document.getElementById("commentInput");
+if(input){input.value="";}
+}
 
 /* 페이지 이동 시 댓글 입력창 초기화 */
 let input=document.getElementById("commentInput");
