@@ -186,63 +186,63 @@ line-height:1.4;
 </div>
 
 <script>
-let lastPage="home";
-let likes=0;
-let liked=false;
+let lastPage = "home";
+let currentPost = null;
+let likes = 0;
+let liked = false;
 
 function showPage(id){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
 
-/* postView는 lastPage로 저장하지 않음 */
-if(id !== "postView"){
-    lastPage = id;
+    // postView는 기록 안 함
+    if(id !== "postView"){
+        lastPage = id;
+    }
+
+    // 댓글 입력창 초기화
+    let input = document.getElementById("commentInput");
+    if(input){ input.value = ""; }
 }
 
-/* 댓글 입력창 초기화 */
-let input=document.getElementById("commentInput");
-if(input){input.value="";}
-}
-
-/* 페이지 이동 시 댓글 입력창 초기화 */
-let input=document.getElementById("commentInput");
-if(input){input.value="";}
-}
-
-const posts={
-d1:{title:"임시 게시물 1",content:"새차원회 첫 번째 글 내용입니다."},
-d2:{title:"임시 게시물 2",content:"두 번째 게시글 테스트 내용."},
-d3:{title:"임시 게시물 3",content:"세 번째 글입니다."},
-d4:{title:"임시 게시물 4",content:"네 번째 게시글 내용입니다."},
-notice1:{title:"임시 공지글",content:"공지사항 테스트 글입니다."}
+const posts = {
+    d1:{title:"임시 게시물 1",content:"새차원회 첫 번째 글 내용입니다."},
+    d2:{title:"임시 게시물 2",content:"두 번째 게시글 테스트 내용."},
+    d3:{title:"임시 게시물 3",content:"세 번째 글입니다."},
+    d4:{title:"임시 게시물 4",content:"네 번째 게시글 내용입니다."},
+    notice1:{title:"임시 공지글",content:"공지사항 테스트 글입니다."}
 };
 
 function openPost(id){
-document.getElementById("postTitle").innerText=posts[id].title;
-document.getElementById("postContent").innerText=posts[id].content;
-likes=0;
-liked=false;
-document.getElementById("likeCount").innerText=likes;
-showPage("postView");
+    currentPost = id;
+
+    document.getElementById("postTitle").innerText = posts[id].title;
+    document.getElementById("postContent").innerText = posts[id].content;
+
+    likes = 0;
+    liked = false;
+    document.getElementById("likeCount").innerText = likes;
+
+    showPage("postView");
 }
 
 function goBack(){
-showPage(lastPage);
+    showPage(lastPage);
 }
 
 function likePost(){
-if(!liked){
-likes++;
-liked=true;
-}else{
-likes--;
-liked=false;
-}
-document.getElementById("likeCount").innerText=likes;
+    if(!liked){
+        likes++;
+        liked = true;
+    }else{
+        likes--;
+        liked = false;
+    }
+    document.getElementById("likeCount").innerText = likes;
 }
 
 function submitComment(){
-alert("로그인하신 뒤 이용해주세요.");
+    alert("로그인하신 뒤 이용해주세요.");
 }
 </script>
 
