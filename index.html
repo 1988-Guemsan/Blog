@@ -458,21 +458,15 @@ function renderHome(){
 
     if(posts[key].draft && !isLoggedIn) continue;
 
-    let prefix = "";
+    let title = posts[key].title;
 
-    // 🔴 공지 처리 (notice:true 라는 속성이 있을 경우)
-    if(posts[key].notice){
-      prefix += "<span class='notice-tag'>공지</span> ";
-    }
-
-    // ⚪ 숨김 처리
     if(posts[key].draft){
-      prefix += "<span class='hidden-tag'>(숨김 처리된 글입니다)</span> ";
+      title = "(숨김 처리된 글입니다.) " + title;
     }
 
     home.innerHTML += `
       <div class="post" onclick="openPost('${key}')">
-        <div class="title">${prefix}${posts[key].title}</div>
+        <div class="title">${title}</div>
       </div>
     `;
   }
