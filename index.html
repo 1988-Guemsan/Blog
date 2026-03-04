@@ -437,10 +437,11 @@ function renderHome(){
       prefix += "<span class='hidden-tag'>(숨김 처리된 글입니다)</span> ";
     }
 
-    home.innerHTML += 
-      "<div class='post' onclick=\"openPost('" + key + "')\">" +
-        "<div class='title'>" + prefix + posts[key].title + "</div>" +
-      "</div>";
+    home.innerHTML += `
+      <div class="post" onclick="openPost('${key}')">
+        <div class="title">${prefix}${posts[key].title}</div>
+      </div>
+    `;
   }
 }
 
