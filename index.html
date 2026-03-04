@@ -109,6 +109,21 @@ line-height:1.4;
 <div class="intro">진실을 전하려 합니다.</div>
 </div>
 
+<div id="loginArea">
+
+<input id="loginId" placeholder="아이디" style="width:100%;margin-top:10px;padding:5px;">
+<input id="loginPw" type="password" placeholder="비밀번호" style="width:100%;margin-top:5px;padding:5px;">
+
+<button onclick="login()" style="width:100%;margin-top:8px;background:#03c75a;color:white;border:none;padding:6px;">로그인</button>
+
+<div id="loginError" style="color:red;font-size:12px;margin-top:5px;"></div>
+
+</div>
+
+<button id="writeBtn" onclick="writePost()" style="width:100%;margin-top:10px;background:#444;color:white;border:none;padding:6px;display:none;">
+글쓰기
+</button>
+
 <div class="menu">
 <div onclick="showPage('home')">전체 글</div>
 <div onclick="showPage('notice')">공지사항</div>
@@ -163,7 +178,7 @@ line-height:1.4;
 
 <div class="commentBox">
 <b>댓글</b>
-<div class="noComment">댓글이 없습니다.</div>
+<div id="commentList" style="margin-top:10px;color:gray;font-size:14px;">댓글이 없습니다.</div>
 
 <textarea id="commentInput" class="commentInput" placeholder="댓글을 입력하세요"></textarea>
 <br>
@@ -188,40 +203,59 @@ line-height:1.4;
 <script>
 let lastPage = "home";
 let currentPost = null;
-let likes = 0;
-let liked = false;
+let isLoggedIn = false;
+
+const ADMIN_ID = "admin";
+const ADMIN_PW = "1234";
+
+/* 좋아요 저장 */
+let postLikes = {
+    d1:0,d2:0,d3:0,d4:0,notice1:0,draft1:0
+};
+
+let likedState = {
+    d1:false,d2:false,d3:false,d4:false,notice1:false,draft1:false
+};
+
+/* 댓글 저장 (글별) */
+let postComments = {
+    d1:[], d2:[], d3:[], d4:[], notice1:[], draft1:[]
+};
+
+const posts = {
+    d1:{title:"임시 게시물 1",content:"새차원회 첫 번째 글 내용입니다.", draft:false},
+    d2:{title:"임시 게시물 2",content:"두 번째 게시글 테스트 내용.", draft:false},
+    d3:{title:"임시 게시물 3",content:"세 번째 글입니다.", draft:false},
+    d4:{title:"임시 게시물 4",content:"네 번째 게시글 내용입니다.", draft:false},
+    notice1:{title:"임시 공지글",content:"공지사항 테스트 글입니다.", draft:false},
+    draft1:{title:"임시저장 글",content:"아직 공개되지 않은 글입니다.", draft:true}
+};
 
 function showPage(id){
     document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
     document.getElementById(id).classList.add("active");
 
-    // postView는 기록 안 함
     if(id !== "postView"){
         lastPage = id;
     }
 
-    // 댓글 입력창 초기화
     let input = document.getElementById("commentInput");
-    if(input){ input.value = ""; }
+    if(input){ input.value=""; }
 }
 
-const posts = {
-    d1:{title:"임시 게시물 1",content:"새차원회 첫 번째 글 내용입니다."},
-    d2:{title:"임시 게시물 2",content:"두 번째 게시글 테스트 내용."},
-    d3:{title:"임시 게시물 3",content:"세 번째 글입니다."},
-    d4:{title:"임시 게시물 4",content:"네 번째 게시글 내용입니다."},
-    notice1:{title:"임시 공지글",content:"공지사항 테스트 글입니다."}
-};
-
 function openPost(id){
-    currentPost = id;
+    currentPost=id;
 
-    document.getElementById("postTitle").innerText = posts[id].title;
-    document.getElementById("postContent").innerText = posts[id].content;
+    let title=posts[id].title;
+    if(posts[id].draft){
+        title="(숨김 처리된 글입니다.) "+title;
+    }
 
-    likes = 0;
-    liked = false;
-    document.getElementById("likeCount").innerText = likes;
+    document.getElementById("postTitle").innerText=title;
+    document.getElementById("postContent").innerText=posts[id].content;
+    document.getElementById("likeCount").innerText=postLikes[id];
+
+    renderComments();
 
     showPage("postView");
 }
@@ -231,18 +265,106 @@ function goBack(){
 }
 
 function likePost(){
-    if(!liked){
-        likes++;
-        liked = true;
+    if(!likedState[currentPost]){
+        postLikes[currentPost]++;
+        likedState[currentPost]=true;
     }else{
-        likes--;
-        liked = false;
+        postLikes[currentPost]--;
+        likedState[currentPost]=false;
     }
-    document.getElementById("likeCount").innerText = likes;
+    document.getElementById("likeCount").innerText=postLikes[currentPost];
 }
 
+/* 로그인 */
+function login(){
+    let id=document.getElementById("loginId").value.trim();
+    let pw=document.getElementById("loginPw").value.trim();
+    let error=document.getElementById("loginError");
+
+    if(id==="" && pw===""){
+        error.innerText="아이디를 입력해주세요.";
+        return;
+    }
+    if(id===""){
+        error.innerText="아이디를 입력해주세요.";
+        return;
+    }
+    if(pw===""){
+        error.innerText="비밀번호를 입력해주세요.";
+        return;
+    }
+
+    if(id===ADMIN_ID && pw===ADMIN_PW){
+        isLoggedIn=true;
+        error.innerText="";
+        document.getElementById("loginArea").style.display="none";
+        document.getElementById("writeBtn").style.display="block";
+        alert("로그인되었습니다.");
+        renderHome();
+    }else{
+        error.innerText="아이디와 비밀번호를 확인해주세요.";
+    }
+}
+
+/* 글쓰기 버튼 */
+function writePost(){
+    alert("오류가 발생했습니다.");
+}
+
+/* 댓글 */
 function submitComment(){
-    alert("로그인하신 뒤 이용해주세요.");
+    if(!isLoggedIn){
+        alert("로그인하신 뒤 이용해주세요.");
+        return;
+    }
+
+    let text=document.getElementById("commentInput").value.trim();
+    if(text==="") return;
+
+    postComments[currentPost].push(text);
+    document.getElementById("commentInput").value="";
+    renderComments();
+}
+
+function renderComments(){
+    let area=document.getElementById("commentList");
+    area.innerHTML="";
+
+    let comments=postComments[currentPost];
+
+    if(comments.length===0){
+        area.innerHTML="<div style='color:gray;font-size:14px;'>댓글이 없습니다.</div>";
+        return;
+    }
+
+    comments.forEach(c=>{
+        area.innerHTML+=`
+        <div style="margin-top:10px;border-bottom:1px solid #eee;padding-bottom:5px;">
+            <b>LHB</b>
+            <span style="color:#03c75a;font-size:12px;margin-left:5px;">작성자</span>
+            <div style="margin-top:5px;">${c}</div>
+        </div>`;
+    });
+}
+
+/* 홈 렌더 */
+function renderHome(){
+    let home=document.getElementById("home");
+    home.innerHTML="";
+
+    for(let key in posts){
+        if(posts[key].draft && !isLoggedIn) continue;
+
+        let title=posts[key].title;
+        if(posts[key].draft){
+            title="(숨김 처리된 글입니다.) "+title;
+        }
+
+        home.innerHTML+=`
+        <div class="post" onclick="openPost('${key}')">
+            <div class="title">${title}</div>
+        </div>`;
+    }
 }
 </script>
 
