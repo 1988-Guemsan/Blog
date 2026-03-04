@@ -6,8 +6,21 @@
 
 <style>
 body{margin:0;font-family:Arial;background:#f5f6f7;}
-.topbar{background:#03c75a;height:60px;display:flex;align-items:center;padding:0 20px;color:white;}
-.logo{font-size:24px;font-weight:bold;white-space:nowrap;}
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#03c75a;
+}
+
+.top-bar-inner{
+  width:100%;
+  max-width:1100px;
+  display:flex;
+  align-items:center;
+  gap:30px;
+}
+.logo{font-size:24px;font-weight:bold;white-space:nowrap;min-width:90px;}
 .search{flex:1;}
 .search input{width:100%;height:34px;border:none;border-radius:3px;padding-left:10px;}
 .container{
@@ -156,6 +169,7 @@ line-height:1.4;
 <body>
 
 <div class="topbar">
+  <div class="top-bar-inner">
   <div class="logo">블로그</div>
 
   <div class="search-area">
@@ -437,22 +451,31 @@ function closeLoginModal(){
 
 /* 홈 렌더 */
 function renderHome(){
-    let home=document.getElementById("home");
-    home.innerHTML="";
+  let home = document.getElementById("home");
+  home.innerHTML = "";
 
-    for(let key in posts){
-        if(posts[key].draft && !isLoggedIn) continue;
+  for(let key in posts){
 
-        let title=posts[key].title;
-        if(posts[key].draft){
-            title="(숨김 처리된 글입니다.) "+title;
-        }
+    if(posts[key].draft && !isLoggedIn) continue;
 
-        home.innerHTML+=`
-        <div class="post" onclick="openPost('${key}')">
-            <div class="title">${title}</div>
-        </div>`;
+    let prefix = "";
+
+    // 🔴 공지 처리 (notice:true 라는 속성이 있을 경우)
+    if(posts[key].notice){
+      prefix += "<span class='notice-tag'>공지</span> ";
     }
+
+    // ⚪ 숨김 처리
+    if(posts[key].draft){
+      prefix += "<span class='hidden-tag'>(숨김 처리된 글입니다)</span> ";
+    }
+
+    home.innerHTML += `
+      <div class="post" onclick="openPost('${key}')">
+        <div class="title">${prefix}${posts[key].title}</div>
+      </div>
+    `;
+  }
 }
 </script>
 
