@@ -10,7 +10,13 @@ body{margin:0;font-family:Arial;background:#f5f6f7;}
 .logo{font-size:22px;font-weight:bold;margin-right:20px;}
 .search{flex:1;}
 .search input{width:100%;height:34px;border:none;border-radius:3px;padding-left:10px;}
-.container{width:1100px;margin:20px auto;display:flex;gap:20px;}
+.container{
+width:1100px;
+margin:20px auto;
+display:flex;
+gap:20px;
+justify-content:center;
+}
 .sidebar{width:260px;}
 
 .profile{background:white;padding:20px;border-radius:6px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
@@ -22,7 +28,10 @@ body{margin:0;font-family:Arial;background:#f5f6f7;}
 .menu div:last-child{border:none;}
 .menu div:hover{color:#03c75a;font-weight:bold;}
 
-.main{flex:1;}
+.main{
+flex:1;
+max-width:700px;
+}
 .page{display:none;}
 .active{display:block;}
 
@@ -95,8 +104,17 @@ line-height:1.4;
 <body>
 
 <div class="topbar">
-<div class="logo">블로그</div>
-<div class="search"><input type="text" placeholder="검색"></div>
+  <div class="logo">블로그</div>
+
+<div style="display:flex;align-items:center;">
+    <input type="text" placeholder="검색어를 입력하세요">
+
+    <button onclick="openLoginModal()" 
+    style="margin-left:10px;background:white;color:#03c75a;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;">
+    로그인
+    </button>
+
+  </div>
 </div>
 
 <div class="container">
@@ -301,6 +319,7 @@ function login(){
         document.getElementById("writeBtn").style.display="block";
         alert("로그인되었습니다.");
         renderHome();
+        closeLoginModal();
     }else{
         error.innerText="아이디와 비밀번호를 확인해주세요.";
     }
@@ -366,7 +385,36 @@ function renderHome(){
         </div>`;
     }
 }
+
+function openLoginModal(){
+document.getElementById("loginModal").style.display="flex";
+}
+
+function closeLoginModal(){
+document.getElementById("loginModal").style.display="none";
+}
 </script>
 
+<div id="loginModal" 
+style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);justify-content:center;align-items:center;">
+
+<div style="background:white;padding:25px;width:300px;border-radius:8px;position:relative;">
+
+<div style="font-weight:bold;margin-bottom:15px;">로그인</div>
+
+<input id="loginId" placeholder="아이디" style="width:100%;padding:6px;margin-bottom:8px;">
+<input id="loginPw" type="password" placeholder="비밀번호" style="width:100%;padding:6px;margin-bottom:8px;">
+
+<button onclick="login()" 
+style="width:100%;background:#03c75a;color:white;border:none;padding:6px;">로그인</button>
+
+<div id="loginError" style="color:red;font-size:12px;margin-top:6px;"></div>
+
+<button onclick="closeLoginModal()" 
+style="position:absolute;top:10px;right:10px;border:none;background:none;cursor:pointer;">✕</button>
+
+</div>
+</div>
+  
 </body>
 </html>
