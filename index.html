@@ -109,22 +109,24 @@ line-height:1.4;
   display:flex;
   align-items:center;
   gap:10px;
-  margin-left:40px;
 }
 
 .search-area input{
-  width:250px;
-  padding:6px 10px;
-  border-radius:4px;
+  width:420px;           /* 🔥 길게 */
+  height:36px;
+  padding:0 12px;
+  border-radius:0;       /* 🔥 네모 */
   border:none;
+  outline:none;
 }
 
 #loginBtn{
   background:white;
   color:#03c75a;
   border:none;
-  padding:6px 14px;
-  border-radius:4px;
+  height:36px;
+  padding:0 16px;
+  border-radius:0;   /* 🔥 네모 */
   cursor:pointer;
   font-weight:bold;
 }
@@ -308,8 +310,6 @@ function likePost(){
 }
 
 /* 로그인 */
-let isLoggedIn = false;
-
 function login(){
 
   const id = document.getElementById("loginId").value;
@@ -335,6 +335,8 @@ function login(){
       btn.innerText = "LHB님";
       btn.onclick = null;
     }
+
+     renderHome();
 
     closeLoginModal();
 
@@ -411,6 +413,8 @@ document.getElementById("loginModal").style.display="flex";
 function closeLoginModal(){
 document.getElementById("loginModal").style.display="none";
 }
+
+renderHome();
 </script>
 
 <div id="loginModal" 
