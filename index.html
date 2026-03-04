@@ -109,13 +109,16 @@ line-height:1.4;
   display:flex;
   align-items:center;
   gap:10px;
+  width:100%;
+  max-width:1000px;   /* 게시물 폭이랑 맞춰 */
+  margin:0 auto;
 }
 
 .search-area input{
-  width:420px;           /* 🔥 길게 */
-  height:36px;
-  padding:0 12px;
-  border-radius:0;       /* 🔥 네모 */
+  flex:1;             /* 🔥 남는 공간 다 먹기 */
+  height:40px;
+  padding:0 14px;
+  border-radius:0;
   border:none;
   outline:none;
 }
@@ -129,6 +132,16 @@ line-height:1.4;
   border-radius:0;   /* 🔥 네모 */
   cursor:pointer;
   font-weight:bold;
+}
+
+.notice-tag{
+  color:red;
+  font-weight:bold;
+}
+
+.hidden-tag{
+  color:#888;     /* 🔥 연한 회색 */
+  font-size:13px;
 }
   
 </style>
@@ -414,7 +427,25 @@ function closeLoginModal(){
 document.getElementById("loginModal").style.display="none";
 }
 
-renderHome();
+/* 홈 렌더 */
+function renderHome(){
+    let home=document.getElementById("home");
+    home.innerHTML="";
+
+    for(let key in posts){
+        if(posts[key].draft && !isLoggedIn) continue;
+
+        let title=posts[key].title;
+        if(posts[key].draft){
+            title="(숨김 처리된 글입니다.) "+title;
+        }
+
+        home.innerHTML+=`
+        <div class="post" onclick="openPost('${key}')">
+            <div class="title">${title}</div>
+        </div>`;
+    }
+}
 </script>
 
 <div id="loginModal" 
