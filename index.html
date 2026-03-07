@@ -77,15 +77,17 @@ body{margin:0;font-family:Arial;background:#f5f6f7;}
 
 /* 로그인 모달 */
 #loginModal{
-  display:none;
-  position:fixed;
+  display: none; /* 숨김 */
+  position: fixed;
   top:0; left:0;
   width:100%; height:100%;
-  background:rgba(0,0,0,0.4);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-  display:flex;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+#loginModal.active {
+  display: flex; /* 활성화 시 flex */
 }
 #loginModal > div{position: relative; background:white; padding:25px; width:300px; border-radius:8px;}
 </style>
@@ -98,6 +100,8 @@ body{margin:0;font-family:Arial;background:#f5f6f7;}
     <div class="search-area">
       <input type="text" placeholder="검색어를 입력하세요">
       <button id="loginBtn" onclick="openLoginModal()">로그인</button>
+      <button onclick="login()">로그인</button>
+      <button onclick="closeLoginModal()">✕</button>
     </div>
   </div>
 </div>
@@ -217,8 +221,12 @@ function submitComment(){ if(!isLoggedIn){alert("로그인하신 뒤 이용해�
 function renderComments(){ let area=document.getElementById("commentList"); area.innerHTML=""; let comments=postComments[currentPost]; if(comments.length===0){ area.innerHTML="<div style='color:gray;font-size:14px;'>댓글이 없습니다.</div>"; return;} comments.forEach(c=>{area.innerHTML+=`<div style="margin-top:10px;border-bottom:1px solid #eee;padding-bottom:5px;"><b>LHB</b><span style="color:#03c75a;font-size:12px;margin-left:5px;">작성자</span><div style="margin-top:5px;">${c}</div></div>`;}); }
 
 // 로그인 / 모달
-function openLoginModal(){ document.getElementById("loginModal").style.display="flex"; }
-function closeLoginModal(){ document.getElementById("loginModal").style.display="none"; }
+function openLoginModal(){
+    document.getElementById("loginModal").classList.add("active");
+}
+function closeLoginModal(){
+    document.getElementById("loginModal").classList.remove("active");
+}
 
 function login(){
   const id = document.getElementById("loginId").value;
