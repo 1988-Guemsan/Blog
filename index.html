@@ -148,13 +148,13 @@ line-height:1.4;
 }
 
 .notice-tag{
-  color:red; !important;
+  color:red !important;
   font-weight:bold;
   margin-right:6px;
 }
 
 .hidden-tag{
-  color:#888; !important;    /* 🔥 연한 회색 */
+  color:#888 !important;
   font-size:13px;
 }
 
@@ -449,7 +449,7 @@ function renderHome(){
 
     home.innerHTML += `
       <div class="post" onclick="openPost('${key}')">
-        <div class="title">${prefix}${posts[key].title}</div>
+        <div class="title">${prefix}${posts[key].title.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div>
       </div>
     `;
   }
