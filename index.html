@@ -430,29 +430,27 @@ function renderComments(){
 
 /* 홈 렌더 */
 function renderHome(){
-  let home = document.getElementById("home");
-  home.innerHTML = "";
-
+  let html="";
   for(let key in posts){
+    if(posts[key].hidden) continue;
 
-    if(posts[key].draft && !isLoggedIn) continue;
+    let prefix=posts[key].notice ? '<span class="notice-tag">공지</span>' : "";
 
-    let prefix = "";
-
-    if(posts[key].notice){
-      prefix += "<span class='notice-tag'>공지</span> ";
-    }
-
-    if(posts[key].draft){
-      prefix += "<span class='hidden-tag'>(숨김 처리된 글입니다)</span> ";
-    }
-
-    home.innerHTML += `
-      <div class="post" onclick="openPost('${key}')">
-        <div class="title">${prefix}${posts[key].title.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div>
-      </div>
+    html+=`
+    <div class="post-box" data-id="${key}">
+      <div class="title">${prefix}${posts[key].title}</div>
+      <div class="date">${posts[key].date}</div>
+    </div>
     `;
   }
+
+  document.getElementById("content").innerHTML=html;
+
+  document.querySelectorAll(".post-box").forEach(box=>{
+    box.onclick=()=>{
+      openPost(box.dataset.id);
+    };
+  });
 }
 
 function openLoginModal(){
