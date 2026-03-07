@@ -431,10 +431,11 @@ function renderComments(){
 /* 홈 렌더 */
 function renderHome(){
   let html="";
+
   for(let key in posts){
     if(posts[key].hidden) continue;
 
-    let prefix=posts[key].notice ? '<span class="notice-tag">공지</span>' : "";
+    let prefix=posts[key].notice ? '<span class="notice-tag">공지</span> ' : "";
 
     html+=`
     <div class="post-box" data-id="${key}">
@@ -447,9 +448,9 @@ function renderHome(){
   document.getElementById("content").innerHTML=html;
 
   document.querySelectorAll(".post-box").forEach(box=>{
-    box.onclick=()=>{
-      openPost(box.dataset.id);
-    };
+    box.onclick=function(){
+      openPost(this.dataset.id);
+    }
   });
 }
 
