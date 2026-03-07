@@ -210,28 +210,28 @@ line-height:1.4;
 
 <!-- 전체글 -->
 <div id="home" class="page active">
-<div class="post" onclick="openPost('d1')"><div class="title">임시 게시물 1</div></div>
-<div class="post" onclick="openPost('d2')"><div class="title">임시 게시물 2</div></div>
-<div class="post" onclick="openPost('d3')"><div class="title">임시 게시물 3</div></div>
-<div class="post" onclick="openPost('d4')"><div class="title">임시 게시물 4</div></div>
+<div class="post" onclick="openPost('d1')"><div class="title">근황</div></div>
+<div class="post" onclick="openPost('d2')"><div class="title">주의사항</div></div>
+<div class="post" onclick="openPost('d3')"><div class="title">서브리미널 효과와 비디오 보급</div></div>
+<div class="post" onclick="openPost('d4')"><div class="title">새차원회에 대하여</div></div>
 <div class="post" onclick="openPost('notice1')">
-<div class="title"><span class="notice-tag">공지</span>임시 공지글</div>
+<div class="title"><span class="notice-tag">공지</span>공지사항</div>
 </div>
 </div>
 
 <!-- 공지 -->
 <div id="notice" class="page">
 <div class="back" onclick="showPage('home')">← 돌아가기</div>
-<div class="post" onclick="openPost('notice1')"><div class="title">임시 공지글</div></div>
+<div class="post" onclick="openPost('notice1')"><div class="title">공지사항</div></div>
 </div>
 
 <!-- 새차원회 -->
 <div id="dimension" class="page">
 <div class="back" onclick="showPage('home')">← 돌아가기</div>
-<div class="post" onclick="openPost('d1')"><div class="title">임시 게시물 1</div></div>
-<div class="post" onclick="openPost('d2')"><div class="title">임시 게시물 2</div></div>
-<div class="post" onclick="openPost('d3')"><div class="title">임시 게시물 3</div></div>
-<div class="post" onclick="openPost('d4')"><div class="title">임시 게시물 4</div></div>
+<div class="post" onclick="openPost('d1')"><div class="title">근황</div></div>
+<div class="post" onclick="openPost('d2')"><div class="title">주의사항</div></div>
+<div class="post" onclick="openPost('d3')"><div class="title">서브리미널 효과와 비디오 보급</div></div>
+<div class="post" onclick="openPost('d4')"><div class="title">새차원회에 대하여</div></div>
 </div>
 
 <!-- 상세 -->
@@ -296,12 +296,12 @@ let postComments = {
 };
 
 const posts = {
-    d1:{title:"임시 게시물 1",content:"새차원회 첫 번째 글 내용입니다.", draft:false},
-    d2:{title:"임시 게시물 2",content:"두 번째 게시글 테스트 내용.", draft:false},
-    d3:{title:"임시 게시물 3",content:"세 번째 글입니다.", draft:false},
-    d4:{title:"임시 게시물 4",content:"네 번째 게시글 내용입니다.", draft:false},
+    d1:{title:"근황",content:"새차원회 첫 번째 글 내용입니다.", draft:false},
+    d2:{title:"주의사항",content:"두 번째 게시글 테스트 내용.", draft:false},
+    d3:{title:"서브리미널 효과와 비디오 보급",content:"세 번째 글입니다.", draft:false},
+    d4:{title:"새차원회에 대하여",content:"네 번째 게시글 내용입니다.", draft:false},
     notice1:{title:"임시 공지글",content:"공지사항 테스트 글입니다.", draft:false, notice:true},
-    draft1:{title:"임시저장 글",content:"아직 공개되지 않은 글입니다.", draft:true}
+    draft1:{title:"새차원에 가는 방법",content:"아직 공개되지 않은 글입니다.", draft:true}
 };
 
 function showPage(id){
