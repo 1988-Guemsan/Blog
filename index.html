@@ -3,63 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <title>블로그</title>
-
 <style>
 body{margin:0;font-family:Arial;background:#f5f6f7;}
-
-.top-bar-inner{
-  width:100%;
-  max-width:1100px;
-  display:flex;
-  align-items:center;
-  gap:31px;
-  position: relative;
-  z-index: 1000;
-}
+.top-bar-inner{width:100%;max-width:1100px;display:flex;align-items:center;gap:31px;position: relative; z-index:1000;}
 .logo{font-size:24px;font-weight:bold;white-space:nowrap;color:white;}
 .search{flex:1;}
 .search input{width:100%;height:34px;border:none;border-radius:3px;padding-left:10px;}
-.container{
-  width:100%;
-  max-width:1100px;
-  margin:20px auto;
-  display:flex;
-  gap:30px;
-  padding:0 20px;
-  box-sizing:border-box;
-  position: relative;
-  z-index: 0;
-}
+.container{width:100%;max-width:1100px;margin:20px auto;display:flex;gap:30px;padding:0 20px;box-sizing:border-box;position: relative; z-index:0;}
 .sidebar{width:260px;}
-
 .profile{background:white;padding:20px;border-radius:6px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
 .profile img{width:180px;height:180px;border-radius:0%;}
 .nickname{margin-top:10px;font-weight:bold;}
-
 .menu{margin-top:20px;background:white;border-radius:6px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
 .menu div{padding:8px 0;border-bottom:1px solid #eee;cursor:pointer;}
 .menu div:last-child{border:none;}
 .menu div:hover{color:#03c75a;font-weight:bold;}
-
 .main{flex:1;}
 .page{display:none;}
 .active{display:block;}
-
 .post{background:white;padding:20px;border-radius:6px;margin-bottom:15px;box-shadow:0 1px 3px rgba(0,0,0,0.1);cursor:pointer;}
 .title{font-size:20px;font-weight:bold;}
 .meta{font-size:13px;color:gray;margin-top:5px;}
 .content{margin-top:15px;line-height:1.6;}
 .back{margin-bottom:15px;cursor:pointer;color:#03c75a;font-weight:bold;}
-
 .likeBox{margin-top:20px;padding:10px;border-top:1px solid #eee;display:flex;align-items:center;gap:10px;}
 .likeBtn{background:#ff4d6d;color:white;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;}
-
 .commentBox{margin-top:25px;border-top:1px solid #eee;padding-top:15px;}
 .commentInput{width:100%;height:70px;margin-top:10px;border:1px solid #ddd;border-radius:5px;padding:10px;resize:none;}
 .commentSubmit{margin-top:8px;background:#03c75a;color:white;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;}
-.noComment{color:gray;font-size:14px;margin-top:10px;}
 .intro{margin-top:8px;font-size:13px;color:#666;line-height:1.4;}
-
 .topbar{background:#03c75a;padding:15px 30px;display:flex;justify-content:center;position:relative;z-index:1000;}
 .search-area{display:flex;align-items:center;gap:10px;flex:1;}
 .search-area input{flex:1;height:40px;padding:0 14px;border-radius:0;border:none;outline:none;}
@@ -67,29 +39,13 @@ body{margin:0;font-family:Arial;background:#f5f6f7;}
 #loginBtn.logged-in{background:#03c75a;color:white;font-weight:bold;cursor:default;}
 .notice-tag{color:red !important;font-weight:bold;margin-right:6px;}
 .hidden-tag{color:#888 !important;font-size:13px;}
-
-@media (max-width:600px){
-  .container{flex-direction:column;}
-  .sidebar{width:100%;}
-}
-
+@media (max-width:600px){.container{flex-direction:column;}.sidebar{width:100%;}}
 .content img{max-width:100%;margin:10px 0;}
 
 /* 로그인 모달 */
-#loginModal{
-  display: none; /* 숨김 */
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,0.4);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-#loginModal.active {
-  display: flex; /* 활성화 시 flex */
-}
-#loginModal > div{position: relative; background:white; padding:25px; width:300px; border-radius:8px;}
+#loginModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);justify-content:center;align-items:center;z-index:9999;}
+#loginModal.active{display:flex;}
+#loginModal > div{position:relative;background:white;padding:25px;width:300px;border-radius:8px;}
 </style>
 </head>
 <body>
@@ -105,15 +61,75 @@ body{margin:0;font-family:Arial;background:#f5f6f7;}
 </div>
 
 <div class="container">
-<!-- 사이드 -->
-<div class="sidebar">
-<div class="profile">
-<img src="default_profile.png">
-<div class="nickname">LHB</div>
-<div class="intro">진실을 전하려 합니다.</div>
+  <div class="sidebar">
+    <div class="profile">
+      <img src="default_profile.png">
+      <div class="nickname">LHB</div>
+      <div class="intro">진실을 전하려 합니다.</div>
+    </div>
+    <button id="writeBtn" onclick="writePost()" style="width:100%;margin-top:10px;background:#444;color:white;border:none;padding:6px;display:none;">글쓰기</button>
+    <div class="menu">
+      <div onclick="showPage('home')">전체 글</div>
+      <div onclick="showPage('notice')">공지사항</div>
+      <div onclick="showPage('dimension')">새차원회</div>
+      <div onclick="showPage('guest')">방명록</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- 전체글 -->
+    <div id="home" class="page active">
+      <div class="post" onclick="openPost('d1')"><div class="title">근황</div></div>
+      <div class="post" onclick="openPost('d2')"><div class="title">주의사항</div></div>
+      <div class="post" onclick="openPost('d3')"><div class="title">서브리미널 효과와 비디오 보급</div></div>
+      <div class="post" onclick="openPost('d4')"><div class="title">새차원회에 대하여</div></div>
+      <div class="post" onclick="openPost('notice1')"><div class="title"><span class="notice-tag">공지</span>공지사항</div></div>
+    </div>
+    <!-- 공지 -->
+    <div id="notice" class="page">
+      <div class="back" onclick="showPage('home')">← 돌아가기</div>
+      <div class="post" onclick="openPost('notice1')"><div class="title">공지사항</div></div>
+    </div>
+    <!-- 새차원회 -->
+    <div id="dimension" class="page">
+      <div class="back" onclick="showPage('home')">← 돌아가기</div>
+      <div class="post" onclick="openPost('d1')"><div class="title">근황</div></div>
+      <div class="post" onclick="openPost('d2')"><div class="title">주의사항</div></div>
+      <div class="post" onclick="openPost('d3')"><div class="title">서브리미널 효과와 비디오 보급</div></div>
+      <div class="post" onclick="openPost('d4')"><div class="title">새차원회에 대하여</div></div>
+    </div>
+    <!-- 상세 -->
+    <div id="postView" class="page">
+      <div class="back" onclick="goBack()">← 목록으로</div>
+      <div class="post" style="cursor:default">
+        <div class="title" id="postTitle"></div>
+        <div class="meta">작성일 | 조회수</div>
+        <div class="content" id="postContent"></div>
+        <div class="likeBox">
+          <button class="likeBtn" onclick="likePost()">❤ 좋아요</button>
+          <span id="likeCount">0</span>
+        </div>
+        <div class="commentBox">
+          <b>댓글</b>
+          <div id="commentList" style="margin-top:10px;color:gray;font-size:14px;">댓글이 없습니다.</div>
+          <textarea id="commentInput" class="commentInput" placeholder="댓글을 입력하세요"></textarea>
+          <br>
+          <button class="commentSubmit" onclick="submitComment()">등록</button>
+        </div>
+      </div>
+    </div>
+    <!-- 방명록 -->
+    <div id="guest" class="page">
+      <div class="back" onclick="showPage('home')">← 돌아가기</div>
+      <div class="post" style="cursor:default">
+        <div class="title">방명록</div>
+        <div class="content">방문 흔적을 남겨주세요.</div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- 로그인 모달 -->
+<!-- ✅ 로그인 모달 body 맨 아래 -->
 <div id="loginModal">
   <div>
     <div style="font-weight:bold;margin-bottom:15px;">로그인</div>
@@ -125,145 +141,60 @@ body{margin:0;font-family:Arial;background:#f5f6f7;}
   </div>
 </div>
 
-<button id="writeBtn" onclick="writePost()" style="width:100%;margin-top:10px;background:#444;color:white;border:none;padding:6px;display:none;">글쓰기</button>
-
-<div class="menu">
-<div onclick="showPage('home')">전체 글</div>
-<div onclick="showPage('notice')">공지사항</div>
-<div onclick="showPage('dimension')">새차원회</div>
-<div onclick="showPage('guest')">방명록</div>
-</div>
-</div>
-
-<!-- 메인 -->
-<div class="main">
-<!-- 전체글 -->
-<div id="home" class="page active">
-<div class="post" onclick="openPost('d1')"><div class="title">근황</div></div>
-<div class="post" onclick="openPost('d2')"><div class="title">주의사항</div></div>
-<div class="post" onclick="openPost('d3')"><div class="title">서브리미널 효과와 비디오 보급</div></div>
-<div class="post" onclick="openPost('d4')"><div class="title">새차원회에 대하여</div></div>
-<div class="post" onclick="openPost('notice1')"><div class="title"><span class="notice-tag">공지</span>공지사항</div></div>
-</div>
-
-<!-- 공지 -->
-<div id="notice" class="page">
-<div class="back" onclick="showPage('home')">← 돌아가기</div>
-<div class="post" onclick="openPost('notice1')"><div class="title">공지사항</div></div>
-</div>
-
-<!-- 새차원회 -->
-<div id="dimension" class="page">
-<div class="back" onclick="showPage('home')">← 돌아가기</div>
-<div class="post" onclick="openPost('d1')"><div class="title">근황</div></div>
-<div class="post" onclick="openPost('d2')"><div class="title">주의사항</div></div>
-<div class="post" onclick="openPost('d3')"><div class="title">서브리미널 효과와 비디오 보급</div></div>
-<div class="post" onclick="openPost('d4')"><div class="title">새차원회에 대하여</div></div>
-</div>
-
-<!-- 상세 -->
-<div id="postView" class="page">
-<div class="back" onclick="goBack()">← 목록으로</div>
-<div class="post" style="cursor:default">
-<div class="title" id="postTitle"></div>
-<div class="meta">작성일 | 조회수</div>
-<div class="content" id="postContent"></div>
-<div class="likeBox">
-<button class="likeBtn" onclick="likePost()">❤ 좋아요</button>
-<span id="likeCount">0</span>
-</div>
-<div class="commentBox">
-<b>댓글</b>
-<div id="commentList" style="margin-top:10px;color:gray;font-size:14px;">댓글이 없습니다.</div>
-<textarea id="commentInput" class="commentInput" placeholder="댓글을 입력하세요"></textarea>
-<br>
-<button class="commentSubmit" onclick="submitComment()">등록</button>
-</div>
-</div>
-</div>
-
-<!-- 방명록 -->
-<div id="guest" class="page">
-<div class="back" onclick="showPage('home')">← 돌아가기</div>
-<div class="post" style="cursor:default">
-<div class="title">방명록</div>
-<div class="content">방문 흔적을 남겨주세요.</div>
-</div>
-</div>
-</div>
-</div>
-
 <script>
-let lastPage = "home";
-let currentPost = null;
-let isLoggedIn = false;
-
-// 로그인 정보 💋💅
-const ADMIN_ID = "FUCKSANLI@naver.com";
-const ADMIN_PW = "newn0502";
-
-// 좋아요/댓글 데이터
-let postLikes = { d1:0,d2:0,d3:0,d4:0,notice1:0,draft1:0 };
-let likedState = { d1:false,d2:false,d3:false,d4:false,notice1:false,draft1:false };
-let postComments = { d1:[], d2:[], d3:[], d4:[], notice1:[], draft1:[] };
-
-// 글 데이터 (기존 posts 그대로)
-const posts = { /* ...생략... 기존 posts 그대로 복사... */ };
+// 상태
+let lastPage = "home", currentPost=null, isLoggedIn=false;
+const ADMIN_ID="FUCKSANLI@naver.com", ADMIN_PW="newn0502";
+let postLikes={d1:0,d2:0,d3:0,d4:0,notice1:0,draft1:0}, likedState={d1:false,d2:false,d3:false,d4:false,notice1:false,draft1:false}, postComments={d1:[],d2:[],d3:[],d4:[],notice1:[],draft1:[]};
 
 // 페이지 전환
-function showPage(id){ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active")); document.getElementById(id).classList.add("active"); if(id!=="postView"){ lastPage=id; } let input=document.getElementById("commentInput"); if(input){input.value="";} }
+function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");if(id!=="postView"){lastPage=id;}let input=document.getElementById("commentInput");if(input){input.value="";}}
+
+// 글 열기
 function openPost(id){
-    currentPost = id;
-    let post = posts[id];
-    let title = post.title;
-
-    // 로그인하면 draft 글 보여주기
-    if(post.draft && !isLoggedIn){
-        title = "(숨김 처리된 글입니다.) " + title;
-    }
-
-    document.getElementById("postTitle").innerText = title;
-    document.getElementById("postContent").innerHTML = post.content;
-    document.getElementById("likeCount").innerText = postLikes[id];
-
+    currentPost=id;
+    let post=posts[id], title=post.title;
+    if(post.draft && !isLoggedIn){ title="(숨김 처리된 글입니다.) "+title; }
+    document.getElementById("postTitle").innerText=title;
+    document.getElementById("postContent").innerHTML=post.content;
+    document.getElementById("likeCount").innerText=postLikes[id];
     renderComments();
     showPage("postView");
 }
+
+// 뒤로가기
 function goBack(){ showPage(lastPage); }
+
+// 좋아요
 function likePost(){ if(!likedState[currentPost]){ postLikes[currentPost]++; likedState[currentPost]=true; }else{ postLikes[currentPost]--; likedState[currentPost]=false; } document.getElementById("likeCount").innerText=postLikes[currentPost]; }
+
+// 댓글
 function submitComment(){ if(!isLoggedIn){alert("로그인하신 뒤 이용해주세요."); return;} let text=document.getElementById("commentInput").value.trim(); if(text==="") return; postComments[currentPost].push(text); document.getElementById("commentInput").value=""; renderComments(); }
-function renderComments(){ let area=document.getElementById("commentList"); area.innerHTML=""; let comments=postComments[currentPost]; if(comments.length===0){ area.innerHTML="<div style='color:gray;font-size:14px;'>댓글이 없습니다.</div>"; return;} comments.forEach(c=>{area.innerHTML+=`<div style="margin-top:10px;border-bottom:1px solid #eee;padding-bottom:5px;"><b>LHB</b><span style="color:#03c75a;font-size:12px;margin-left:5px;">작성자</span><div style="margin-top:5px;">${c}</div></div>`;}); }
+function renderComments(){ let area=document.getElementById("commentList"); area.innerHTML=""; let comments=postComments[currentPost]; if(comments.length===0){area.innerHTML="<div style='color:gray;font-size:14px;'>댓글이 없습니다.</div>";return;} comments.forEach(c=>{area.innerHTML+=`<div style="margin-top:10px;border-bottom:1px solid #eee;padding-bottom:5px;"><b>LHB</b><span style="color:#03c75a;font-size:12px;margin-left:5px;">작성자</span><div style="margin-top:5px;">${c}</div></div>`;});}
 
-// 로그인 / 모달
-function openLoginModal(){
-    document.getElementById("loginModal").classList.add("active");
-}
-function closeLoginModal(){
-    document.getElementById("loginModal").classList.remove("active");
-}
+// 로그인 모달
+function openLoginModal(){document.getElementById("loginModal").classList.add("active");}
+function closeLoginModal(){document.getElementById("loginModal").classList.remove("active");}
 
+// 로그인
 function login(){
-  const id = document.getElementById("loginId").value;
-  const pw = document.getElementById("loginPw").value;
-  const error = document.getElementById("loginError");
-
-  if(id===""){ error.innerText="아이디를 입력해주세요."; return; }
-  if(pw===""){ error.innerText="비밀번호를 입력해주세요."; return; }
-
-  if(id===ADMIN_ID && pw===ADMIN_PW){
-    isLoggedIn=true;
-    error.innerText="";
-    const btn=document.getElementById("loginBtn");
-    if(btn){ btn.innerText="LHB님"; btn.classList.add("logged-in"); }
-    closeLoginModal();
-  } else{
-    error.innerText="아이디와 비밀번호를 확인해주세요.";
-  }
+    const id=document.getElementById("loginId").value;
+    const pw=document.getElementById("loginPw").value;
+    const error=document.getElementById("loginError");
+    if(id===""){ error.innerText="아이디를 입력해주세요."; return;}
+    if(pw===""){ error.innerText="비밀번호를 입력해주세요."; return;}
+    if(id===ADMIN_ID && pw===ADMIN_PW){
+        isLoggedIn=true; error.innerText="";
+        document.getElementById("loginBtn").innerText="LHB님"; 
+        document.getElementById("loginBtn").classList.add("logged-in");
+        // 로그인 시 글쓰기 버튼 표시
+        document.getElementById("writeBtn").style.display="block";
+        closeLoginModal();
+    }else{ error.innerText="아이디와 비밀번호를 확인해주세요.";}
 }
 
 // 글쓰기 버튼
 function writePost(){ alert("오류가 발생했습니다."); }
 </script>
-
 </body>
 </html>
