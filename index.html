@@ -361,7 +361,7 @@ login = function() {
     const pw = document.getElementById("loginPw").value;
     const error = document.getElementById("loginError");
 
-    if(id === "FUCKSANLI@naver.com" && pw === "newn0502"){
+    if(id === ADMIN_ID && pw === ADMIN_PW){
         isLoggedIn = true;
         error.innerText = "";
         const btn = document.getElementById("loginBtn");
