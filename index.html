@@ -212,7 +212,23 @@ const posts = { /* ...생략... 기존 posts 그대로 복사... */ };
 
 // 페이지 전환
 function showPage(id){ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active")); document.getElementById(id).classList.add("active"); if(id!=="postView"){ lastPage=id; } let input=document.getElementById("commentInput"); if(input){input.value="";} }
-function openPost(id){ currentPost=id; let title=posts[id].title; if(posts[id].draft){title="(숨김 처리된 글입니다.) "+title;} document.getElementById("postTitle").innerText=title; document.getElementById("postContent").innerHTML=posts[id].content; document.getElementById("likeCount").innerText=postLikes[id]; renderComments(); showPage("postView"); }
+function openPost(id){
+    currentPost = id;
+    let post = posts[id];
+    let title = post.title;
+
+    // 로그인하면 draft 글 보여주기
+    if(post.draft && !isLoggedIn){
+        title = "(숨김 처리된 글입니다.) " + title;
+    }
+
+    document.getElementById("postTitle").innerText = title;
+    document.getElementById("postContent").innerHTML = post.content;
+    document.getElementById("likeCount").innerText = postLikes[id];
+
+    renderComments();
+    showPage("postView");
+}
 function goBack(){ showPage(lastPage); }
 function likePost(){ if(!likedState[currentPost]){ postLikes[currentPost]++; likedState[currentPost]=true; }else{ postLikes[currentPost]--; likedState[currentPost]=false; } document.getElementById("likeCount").innerText=postLikes[currentPost]; }
 function submitComment(){ if(!isLoggedIn){alert("로그인하신 뒤 이용해주세요."); return;} let text=document.getElementById("commentInput").value.trim(); if(text==="") return; postComments[currentPost].push(text); document.getElementById("commentInput").value=""; renderComments(); }
