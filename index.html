@@ -381,7 +381,6 @@ function login(){
     btn.classList.add("logged-in");
 }
 
-    renderHome();
     closeLoginModal();
 } else{
     error.innerText = "아이디와 비밀번호를 확인해주세요.";
@@ -428,43 +427,6 @@ function renderComments(){
         </div>`;
     });
 }
-
-/* 홈 렌더 */
-function renderHome(){
-  let html="";
-
-  for(let key in posts){
-
-    let prefix = posts[key].notice ? '<span class="notice-tag">공지</span> ' : "";
-
-    html+=`
-    <div class="post" data-id="${key}">
-      <div class="title">${prefix}${posts[key].title}</div>
-    </div>
-    `;
-  }
-
-  document.getElementById("home").innerHTML = html;
-
-  document.querySelectorAll(".post").forEach(box=>{
-    box.onclick=function(){
-      openPost(this.dataset.id);
-    }
-  });
-}
-
-function openLoginModal(){
-document.getElementById("loginModal").style.display="flex";
-}
-
-function closeLoginModal(){
-  document.getElementById("loginModal").style.display = "none";
-  document.getElementById("loginId").value = "";
-  document.getElementById("loginPw").value = "";
-  document.getElementById("loginError").innerText = "";
-}
-
-renderHome();
 
 </script>
 
