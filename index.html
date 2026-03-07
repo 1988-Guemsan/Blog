@@ -426,30 +426,6 @@ function closeLoginModal() {
     document.getElementById("loginError").innerText = "";
 }
 
-function renderHome(){
-  let html="";
-
-  for(let key in posts){
-    if(posts[key].hidden) continue;
-
-    let prefix=posts[key].notice ? '<span class="notice-tag">공지</span> ' : "";
-
-    html+=`
-    <div class="post-box" data-id="${key}">
-      <div class="title">${prefix}${posts[key].title}</div>
-      <div class="date">${posts[key].date}</div>
-    </div>
-    `;
-  }
-
-  document.getElementById("content").innerHTML=html;
-
-  document.querySelectorAll(".post-box").forEach(box=>{
-    box.onclick=function(){
-      openPost(this.dataset.id);
-    }
-  });
-}
 
 </script>
 
