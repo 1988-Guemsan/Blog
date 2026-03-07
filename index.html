@@ -212,7 +212,7 @@ line-height:1.4;
 </div>
 
 <!-- 메인 -->
-<div class="main"></div>
+<div class="main">
 
 <!-- 전체글 -->
 <div id="home" class="page active">
@@ -434,21 +434,19 @@ function renderHome(){
   let html="";
 
   for(let key in posts){
-    if(posts[key].hidden) continue;
 
-    let prefix=posts[key].notice ? '<span class="notice-tag">공지</span> ' : "";
+    let prefix = posts[key].notice ? '<span class="notice-tag">공지</span> ' : "";
 
     html+=`
-    <div class="post-box" data-id="${key}">
+    <div class="post" data-id="${key}">
       <div class="title">${prefix}${posts[key].title}</div>
-      <div class="date">${posts[key].date}</div>
     </div>
     `;
   }
 
-  document.getElementById("content").innerHTML=html;
+  document.getElementById("home").innerHTML = html;
 
-  document.querySelectorAll(".post-box").forEach(box=>{
+  document.querySelectorAll(".post").forEach(box=>{
     box.onclick=function(){
       openPost(this.dataset.id);
     }
